@@ -208,13 +208,32 @@ section {
   transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.navbar__link span.short {
+  display: none;
+}
+
 @media (max-width: 640px) {
   .navbar {
     top: auto;
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    max-width: calc(100vw - 24px);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  .navbar::-webkit-scrollbar {
+    display: none;
+  }
+  .navbar__link {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  /* labels raccourcis plutôt que masqués : un onglet vide est illisible */
   .navbar__link span.full {
     display: none;
+  }
+  .navbar__link span.short {
+    display: inline;
   }
 }
 
