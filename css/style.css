@@ -183,11 +183,18 @@ section {
 }
 
 .navbar__link:hover {
-  color: var(--color-text);
+  /* l'indicateur (pastille blanche) glisse sous le lien survolé : le texte doit
+     devenir sombre pour rester lisible dessus, pas blanc */
+  color: var(--color-bg);
 }
 
 .navbar__link.is-active {
   color: var(--color-bg);
+}
+
+.navbar:has(.navbar__link:hover) .navbar__link.is-active:not(:hover) {
+  /* la pastille a quitté le lien actif pour suivre le survol : il redevient blanc comme les autres */
+  color: var(--color-text);
 }
 
 .navbar__indicator {
