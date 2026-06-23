@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — QYRA</title>
+  <meta name="description" content="Conseils pratiques sur l'IA, Claude Code et la productivité, par QYRA." />
+  <meta name="theme-color" content="#010101" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Blog — QYRA" />
+  <meta property="og:description" content="Conseils pratiques sur l'IA, Claude Code et la productivité, par QYRA." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <a href="index.html" class="site-logo"><img class="site-logo__lockup" src="assets/logo-lockup.png" alt="QYRA" /></a>
+
+  <nav class="navbar">
+    <a href="index.html" class="navbar__link"><span class="full">Accueil</span></a>
+    <a href="formations.html" class="navbar__link"><span class="full">Formations</span></a>
+    <a href="parcours.html" class="navbar__link"><span class="full">Mon parcours</span></a>
+    <a href="projets.html" class="navbar__link"><span class="full">Projets</span></a>
+    <a href="blog.html" class="navbar__link is-active"><span class="full">Blog</span></a>
+    <div class="navbar__indicator"></div>
+  </nav>
+
+  <header class="page-header">
+    <h1 class="page-header__title">Blog</h1>
+    <p class="page-header__subtitle">Conseils pratiques sur l'IA, Claude Code et la productivité.</p>
+  </header>
+
+  <section>
+    <div class="container reveal" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
+
+      <a href="articles/5-reflexes-ia.html" class="card" style="display:block;">
+        <span class="card__tag">IA</span>
+        <h2 class="card__title">5 réflexes pour utiliser l'IA sans tomber dans ses pièges</h2>
+        <p class="card__description">Les bons réflexes pour utiliser l'IA sans tomber dans ses pièges, au travail comme au quotidien.</p>
+      </a>
+
+      <div class="card" style="opacity:0.6; cursor:default;">
+        <span class="card__tag">IA</span>
+        <h2 class="card__title">IA et vie privée : ce qu'il faut vérifier avant de lui donner accès à vos données</h2>
+        <p class="card__meta">À venir</p>
+      </div>
+
+      <div class="card" style="opacity:0.6; cursor:default;">
+        <span class="card__tag">Claude Code</span>
+        <h2 class="card__title">Claude Code : donner accès à votre PC à une IA, est-ce vraiment sûr ?</h2>
+        <p class="card__meta">À venir</p>
+      </div>
+
+      <div class="card" style="opacity:0.6; cursor:default;">
+        <span class="card__tag">Claude Code</span>
+        <h2 class="card__title">Les bases pour démarrer avec Claude Code en 30 minutes</h2>
+        <p class="card__meta">À venir</p>
+      </div>
+
+      <div class="card" style="opacity:0.6; cursor:default;">
+        <span class="card__tag">Étudiants</span>
+        <h2 class="card__title">Comment j'ai utilisé l'IA pour rattraper mon retard de révisions à l'UTC</h2>
+        <p class="card__meta">À venir</p>
+      </div>
+
+      <div class="card" style="opacity:0.6; cursor:default;">
+        <span class="card__tag">Étudiants</span>
+        <h2 class="card__title">3 astuces pour optimiser ses révisions avec l'IA</h2>
+        <p class="card__meta">À venir</p>
+      </div>
+
+      <div class="card" style="opacity:0.6; cursor:default;">
+        <span class="card__tag">Sites web</span>
+        <h2 class="card__title">Créer son site vitrine sans savoir coder : le guide pas à pas</h2>
+        <p class="card__meta">À venir</p>
+      </div>
+
+      <div class="card" style="opacity:0.6; cursor:default;">
+        <span class="card__tag">QYRA</span>
+        <h2 class="card__title">Mon parcours : d'un site d'auto-école codé à la main à une équipe d'agents IA</h2>
+        <p class="card__meta">À venir</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <img src="assets/logo-lockup.png" alt="QYRA" class="footer__logo" />
+      <p class="brand-tagline">Intelligence. Amplified.</p>
+      <p style="margin-top:16px;">Formations Claude Code &amp; IA</p>
+      <div class="footer__links">
+        <a href="mailto:contact@qyra.fr">contact@qyra.fr</a>
+      </div>
+      <p class="footer__copy">© 2026 QYRA — Colin Flicourt</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script type="module">
+    import { initParticlesBg } from "./js/particles-bg.js";
+    initParticlesBg(document.querySelector(".page-header"));
+  </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formations — QYRA</title>
+  <meta name="description" content="Les formations QYRA : améliorer son utilisation de l'IA, Claude Code, optimiser son temps d'étudiant, créer son site internet avec l'IA." />
+  <meta name="theme-color" content="#010101" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Formations — QYRA" />
+  <meta property="og:description" content="Les formations QYRA : améliorer son utilisation de l'IA, Claude Code, optimiser son temps d'étudiant, créer son site internet avec l'IA." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <a href="index.html" class="site-logo"><img class="site-logo__lockup" src="assets/logo-lockup.png" alt="QYRA" /></a>
+
+  <nav class="navbar">
+    <a href="index.html" class="navbar__link"><span class="full">Accueil</span></a>
+    <a href="formations.html" class="navbar__link is-active"><span class="full">Formations</span></a>
+    <a href="parcours.html" class="navbar__link"><span class="full">Mon parcours</span></a>
+    <a href="projets.html" class="navbar__link"><span class="full">Projets</span></a>
+    <a href="blog.html" class="navbar__link"><span class="full">Blog</span></a>
+    <div class="navbar__indicator"></div>
+  </nav>
+
+  <header class="page-header">
+    <h1 class="page-header__title">Nos formations</h1>
+    <p class="page-header__subtitle">Quatre formations pratiques, pour tous les niveaux. Cliquez sur l'interrupteur pour voir le détail. Durée et tarifs à venir.</p>
+  </header>
+
+  <section>
+    <div class="container" style="display:flex; flex-direction:column; gap:16px; max-width:760px;">
+
+      <div class="formation reveal">
+        <div class="formation__header">
+          <div class="formation__heading">
+            <span class="card__tag">Tout public</span>
+            <h2 class="card__title">Comment améliorer son utilisation de l'IA</h2>
+          </div>
+          <label class="formation-toggle">
+            <input type="checkbox" class="formation-toggle__input" aria-label="Afficher le détail de la formation Comment améliorer son utilisation de l'IA" />
+            <span class="formation-toggle__track"></span>
+            <span class="formation-toggle__thumb"></span>
+          </label>
+        </div>
+        <div class="formation__body">
+          <div class="formation__body-inner">
+            <p>Cette formation explique les réflexes à utiliser lors de l'utilisation de l'IA, que ce soit pour votre vie professionnelle ou personnelle.</p>
+            <p class="card__meta">Durée et tarif : à venir</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="formation reveal">
+        <div class="formation__header">
+          <div class="formation__heading">
+            <span class="card__tag">Tout public</span>
+            <h2 class="card__title">Claude Code</h2>
+          </div>
+          <label class="formation-toggle">
+            <input type="checkbox" class="formation-toggle__input" aria-label="Afficher le détail de la formation Claude Code" />
+            <span class="formation-toggle__track"></span>
+            <span class="formation-toggle__thumb"></span>
+          </label>
+        </div>
+        <div class="formation__body">
+          <div class="formation__body-inner">
+            <p>Apprenez à utiliser Claude Code : gérer ses permissions, et lui donner accès à votre PC tout en restant en sécurité.</p>
+            <p class="card__meta">Durée et tarif : à venir</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="formation reveal">
+        <div class="formation__header">
+          <div class="formation__heading">
+            <span class="card__tag">Étudiants</span>
+            <h2 class="card__title">Optimiser mon temps de travail</h2>
+          </div>
+          <label class="formation-toggle">
+            <input type="checkbox" class="formation-toggle__input" aria-label="Afficher le détail de la formation Optimiser mon temps de travail" />
+            <span class="formation-toggle__track"></span>
+            <span class="formation-toggle__thumb"></span>
+          </label>
+        </div>
+        <div class="formation__body">
+          <div class="formation__body-inner">
+            <p>Comment optimiser son temps de travail et faciliter ses révisions à l'aide de l'IA.</p>
+            <p class="card__meta">Durée et tarif : à venir</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="formation reveal">
+        <div class="formation__header">
+          <div class="formation__heading">
+            <span class="card__tag">Professionnels</span>
+            <h2 class="card__title">Créer mon site internet avec l'IA</h2>
+          </div>
+          <label class="formation-toggle">
+            <input type="checkbox" class="formation-toggle__input" aria-label="Afficher le détail de la formation Créer mon site internet avec l'IA" />
+            <span class="formation-toggle__track"></span>
+            <span class="formation-toggle__thumb"></span>
+          </label>
+        </div>
+        <div class="formation__body">
+          <div class="formation__body-inner">
+            <p>Première création d'un site vitrine, sans aucune expérience de développement ni de programmation.</p>
+            <p class="card__meta">Durée et tarif : à venir</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <img src="assets/logo-lockup.png" alt="QYRA" class="footer__logo" />
+      <p class="brand-tagline">Intelligence. Amplified.</p>
+      <p style="margin-top:16px;">Formations Claude Code &amp; IA</p>
+      <div class="footer__links">
+        <a href="mailto:contact@qyra.fr">contact@qyra.fr</a>
+      </div>
+      <p class="footer__copy">© 2026 QYRA — Colin Flicourt</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script type="module">
+    import { initParticlesBg } from "./js/particles-bg.js";
+    initParticlesBg(document.querySelector(".page-header"));
+  </script>
+</body>
+</html>
