@@ -1158,45 +1158,256 @@ section {
   font-size: 0.95rem;
 }
 
-/* ===== Timeline (Mon parcours) ===== */
-.timeline {
+/* ===== Story scroll (Mon parcours) : deux colonnes épinglées, défilement scrubé =====
+   Même schéma que .scrollytell (long couloir de scroll + scène en position:sticky, la
+   progression du scroll pilote des styles par étape), étendu à deux colonnes : le texte
+   de chaque étape se anime rapidement (fondu + léger décalage vertical), pendant que son
+   image effectue un fondu-balayage plus lent, étalé sur tout le pas de scroll (clip-path
+   qui grignote le bas de l'image du dessus pour révéler celle du dessous, qui grandit
+   légèrement en même temps) — texte et image sont volontairement désynchronisés. */
+.story {
+  --story-accent: oklch(68% 0.15 265);
   position: relative;
-  max-width: 640px;
-  margin: 0 auto;
-  padding-left: 32px;
-  border-left: 2px solid var(--color-border);
+  height: 400vh;
 }
 
-.timeline__item {
+.story__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.story__col {
   position: relative;
-  padding-bottom: 40px;
+  height: 100%;
 }
 
-.timeline__item:last-child {
-  padding-bottom: 0;
+.story__col--text {
+  width: 44%;
+  padding: 0 48px;
 }
 
-.timeline__item::before {
-  content: "";
+.story__col--media {
+  width: 56%;
+}
+
+.story__content {
   position: absolute;
-  left: -38px;
-  top: 4px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--metal-gradient);
-  box-shadow: 0 0 0 4px var(--color-bg-elevated);
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 0;
+  opacity: 0;
 }
 
-.timeline__title {
+.story__eyebrow {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 11px;
   font-weight: 600;
-  margin-bottom: 6px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--story-accent);
+  margin-bottom: 14px;
 }
 
-.timeline__text {
+.story__heading {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.story__paragraph {
   font-family: var(--font-body);
   color: var(--color-text-muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
+  max-width: 46ch;
+}
+
+.story__list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.story__list li {
+  position: relative;
+  padding-left: 22px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.story__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--story-accent);
+}
+
+.story__link {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--story-accent);
+  padding-bottom: 2px;
+}
+
+.story__link-arrow {
+  display: inline-block;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.story__link:hover .story__link-arrow {
+  transform: translateX(5px);
+}
+
+.story__image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--color-bg-elevated-2);
+  transform-origin: center center;
+}
+
+.story__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to left, rgb(0 0 0 / 55%), transparent 35%),
+    radial-gradient(ellipse at center, transparent 55%, rgb(10 8 20 / 45%) 100%);
+}
+
+.story__hint {
+  position: absolute;
+  bottom: 28px;
+  right: 28px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.story__hint-text {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.story__chev {
+  color: var(--story-accent);
+  animation: story-chev-fade 1.4s ease-in-out infinite;
+}
+
+.story__chev--2 {
+  animation-delay: 0.22s;
+}
+
+.story__chev--3 {
+  animation-delay: 0.44s;
+}
+
+@keyframes story-chev-fade {
+  0%, 100% {
+    opacity: 0.15;
+    transform: translateY(-3px);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(2px);
+  }
+}
+
+.story-fallback {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .story__stage {
+    flex-direction: column-reverse;
+  }
+
+  .story__col--text,
+  .story__col--media {
+    width: 100%;
+  }
+
+  .story__col--media {
+    height: 42%;
+  }
+
+  .story__col--text {
+    height: 58%;
+    padding: 0 24px;
+  }
+
+  .story__heading {
+    font-size: 1.5rem;
+  }
+
+  .story__hint {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story {
+    display: none !important;
+  }
+
+  .story-fallback {
+    display: block;
+    padding: 80px 0;
+  }
+
+  .story-fallback__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+  }
+
+  .story-fallback__item {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .story-fallback__media {
+    flex: 1 1 320px;
+    height: 320px;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-bg-elevated-2);
+    border-radius: var(--radius);
+  }
+
+  .story-fallback__item > *:not(.story-fallback__media) {
+    flex: 1 1 320px;
+  }
 }
 
 /* ===== Scroll reveal ===== */

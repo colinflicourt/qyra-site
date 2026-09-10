@@ -187,6 +187,125 @@ function initScrollytell() {
   update();
 }
 
+// ===== Story scroll (page Mon parcours) =====
+// Section haute de N*100vh avec une scène épinglée (même schéma que .scrollytell). La
+// progression du scroll (0..1) est reconvertie en position sur une timeline à N-1 "pas" :
+// le texte de chaque étape apparaît/disparaît sur une fraction rapide de son pas, pendant
+// que son image effectue un fondu-balayage plus lent, étalé sur tout le pas (clip-path qui
+// grignote le bas de l'image du dessus pour révéler celle du dessous, qui grandit un peu en
+// même temps) — texte et image sont volontairement désynchronisés : le texte change vite,
+// l'image continue de se transformer pendant qu'on lit la suite.
+function initStoryScroll() {
+  const root = document.getElementById("storySection");
+  if (!root) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return; // .story-fallback prend le relais (voir CSS)
+
+  const contents = Array.from(root.querySelectorAll(".story__content"));
+  const images = Array.from(root.querySelectorAll(".story__image"));
+  const hint = root.querySelector(".story__hint");
+  const count = contents.length;
+  if (!count || images.length !== count) return;
+
+  const CONTENT_TRANS = 0.45;
+  const CONTENT_DELAY = 0.175;
+  const ENTER_Y = 2;
+  const EXIT_Y = -2;
+  const SCALE_INITIAL = 1.5;
+  const SCALE_ACTIVE = 1.2;
+  const SCALE_EXIT = 1;
+  const totalSteps = Math.max(1, count - 1);
+
+  function contentState(i, t) {
+    let opacity = 1;
+    let y = 0;
+    if (i > 0) {
+      const enterStart = i - 1 + CONTENT_TRANS + CONTENT_DELAY;
+      const enterEnd = enterStart + CONTENT_TRANS;
+      if (t <= enterStart) {
+        opacity = 0;
+        y = ENTER_Y;
+      } else if (t < enterEnd) {
+        const p = (t - enterStart) / (enterEnd - enterStart);
+        opacity = p;
+        y = ENTER_Y * (1 - p);
+      }
+    }
+    if (i < count - 1) {
+      const exitStart = i;
+      const exitEnd = i + CONTENT_TRANS;
+      if (t >= exitEnd) {
+        opacity = 0;
+        y = EXIT_Y;
+      } else if (t > exitStart) {
+        const p = (t - exitStart) / (exitEnd - exitStart);
+        opacity = Math.min(opacity, 1 - p);
+        y = EXIT_Y * p;
+      }
+    }
+    return { opacity, y };
+  }
+
+  function imageState(i, t) {
+    let scale = SCALE_ACTIVE;
+    let clip = 0;
+    if (i > 0) {
+      const start = i - 1;
+      const end = i;
+      if (t <= start) scale = SCALE_INITIAL;
+      else if (t < end) scale = SCALE_INITIAL + (SCALE_ACTIVE - SCALE_INITIAL) * ((t - start) / (end - start));
+      else scale = SCALE_ACTIVE;
+    }
+    if (i < count - 1) {
+      const start = i;
+      const end = i + 1;
+      if (t > start) {
+        const p = Math.min(1, (t - start) / (end - start));
+        clip = p * 100;
+        scale = SCALE_ACTIVE + (SCALE_EXIT - SCALE_ACTIVE) * p;
+      }
+    }
+    return { scale, clip };
+  }
+
+  function render(progress) {
+    const t = progress * totalSteps;
+    contents.forEach((content, i) => {
+      const { opacity, y } = contentState(i, t);
+      content.style.opacity = opacity;
+      content.style.transform = `translateY(${y}%)`;
+    });
+    images.forEach((image, i) => {
+      const { scale, clip } = imageState(i, t);
+      image.style.transform = `scale(${scale})`;
+      image.style.clipPath = `inset(0% 0% ${clip}% 0%)`;
+      image.style.zIndex = count - i;
+    });
+    if (hint) hint.style.opacity = progress > 0.015 && progress < 0.985 ? 1 : 0;
+  }
+
+  function update() {
+    const rect = root.getBoundingClientRect();
+    const scrollable = rect.height - window.innerHeight;
+    const progress = scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 1;
+    render(progress);
+  }
+
+  let ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(() => {
+        update();
+        ticking = false;
+      });
+    }
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  update();
+}
+
 // ===== Reel de projets (page Projets) =====
 // Anneau de cartes positionnées via un seul angle (rotation) : chaque carte i est à
 // θ = i·pas + rotation, sa profondeur = (cos θ + 1) / 2 pilote à la fois son échelle,
@@ -499,5 +618,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initMagnetButtons();
   initCarousels();
   initProjectsReel();
+  initStoryScroll();
   initScrollReveal();
 });
