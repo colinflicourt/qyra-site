@@ -1188,11 +1188,12 @@ section {
 
 .story__col--text {
   width: 44%;
-  padding: 0 48px;
+  padding: 0 clamp(32px, 6vw, 96px);
 }
 
 .story__col--media {
   width: 56%;
+  overflow: hidden;
 }
 
 .story__content {
