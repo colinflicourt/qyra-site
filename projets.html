@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mes projets — QYRA</title>
-  <meta name="description" content="Les sites web réalisés par Colin, fondateur de QYRA : site d'auto-école, site web familial, et bientôt son CV en ligne." />
+  <title>Mes projets — QYRIS</title>
+  <meta name="description" content="Les projets réalisés par Colin, fondateur de QYRIS : Utopia, Candid Colin, Nuit des Défis, IDFENSE et plus." />
   <meta name="theme-color" content="#010101" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="canonical" href="https://qyraia.netlify.app/projets.html" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://qyraia.netlify.app/projets.html" />
-  <meta property="og:title" content="Mes projets — QYRA" />
-  <meta property="og:description" content="Les sites web et applications réalisés par Colin, fondateur de QYRA." />
+  <meta property="og:title" content="Mes projets — QYRIS" />
+  <meta property="og:description" content="Les projets réalisés par Colin, fondateur de QYRIS : Utopia, Candid Colin, Nuit des Défis, IDFENSE et plus." />
   <meta property="og:image" content="https://qyraia.netlify.app/assets/logo-full.png" />
-  <meta property="og:image:width" content="800" />
-  <meta property="og:image:height" content="800" />
+  <meta property="og:image:width" content="479" />
+  <meta property="og:image:height" content="479" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Mes projets — QYRA" />
-  <meta name="twitter:description" content="Les sites web et applications réalisés par Colin, fondateur de QYRA." />
+  <meta name="twitter:title" content="Mes projets — QYRIS" />
+  <meta name="twitter:description" content="Les projets réalisés par Colin, fondateur de QYRIS : Utopia, Candid Colin, Nuit des Défis, IDFENSE et plus." />
   <meta name="twitter:image" content="https://qyraia.netlify.app/assets/logo-full.png" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <a href="index.html" class="site-logo"><img class="site-logo__lockup" src="assets/logo-lockup.png" alt="QYRA" /></a>
+  <a href="index.html" class="site-logo"><img class="site-logo__lockup" src="assets/logo-lockup.png" alt="QYRIS" /></a>
 
   <nav class="navbar">
     <a href="index.html" class="navbar__link"><span class="full">Accueil</span><span class="short">Accueil</span></a>
@@ -39,36 +39,128 @@
     <p class="page-header__subtitle">Sites web et applications que j'ai réalisés ou que je construis actuellement.</p>
   </header>
 
-  <section>
-    <div class="container reveal" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
+  <section class="section-reel">
+    <div class="container">
 
-      <article class="card" style="cursor:default;">
-        <span class="card__tag">Site web · Terminé</span>
-        <h2 class="card__title">Site d'une auto-école</h2>
-        <p class="card__description">Mon premier projet concret, réalisé sans IA en HTML, PHP et CSS. C'est ce projet qui m'a fait comprendre en profondeur le fonctionnement du web et m'a donné les bases pour aller plus loin.</p>
-        <p class="card__meta">Réalisé en local. Le site n'est plus accessible en ligne : la base de données appartient à l'UTC.</p>
-      </article>
+      <div class="reel" id="projectsReel" role="region" aria-roledescription="carousel" aria-label="Mes projets" tabindex="0">
+        <div class="reel__stage">
 
-      <article class="card" style="cursor:default;">
-        <span class="card__tag">Site web · En cours</span>
-        <h2 class="card__title">Site web familial</h2>
-        <p class="card__description">Amélioration du site de l'entreprise de mon père, avec l'aide de l'IA, pour progresser sur mes compétences personnelles tout en livrant un résultat utile.</p>
-        <p class="card__meta">Pas encore déployé</p>
-      </article>
+          <button type="button" class="reel__card" aria-label="Utopia — Flappy Bird UTC 2026"
+            style="background-image:url('assets/projets/1-utopia.jpg'); --accent: oklch(72% 0.13 85);"
+            data-tag="Jeu web · En ligne" data-title="Utopia — Flappy Bird UTC 2026"
+            data-desc="Jeu officiel du comité d'intégration UTC 2026. Flappy Bird décliné en 4 univers visuels (un par clan), classement individuel et par équipe en temps réel. Backend MySQL/PHP sur OVH."
+            data-href="https://utopia-jeu.fr" data-cta="Jouer"></button>
 
-      <article class="card" style="cursor:default;">
-        <span class="card__tag">Site web · En ligne</span>
-        <h2 class="card__title">Mon CV en ligne</h2>
-        <p class="card__description">Un site personnel présentant mon parcours et mes compétences, pensé comme une alternative au CV classique.</p>
-        <p class="card__meta"><a href="https://colinflicourt-cv.netlify.app" target="_blank" rel="noopener" style="color:inherit; text-decoration:underline;">colinflicourt-cv.netlify.app</a></p>
-      </article>
+          <button type="button" class="reel__card" aria-label="Candid Colin"
+            style="background-image:url('assets/projets/2-candid-colin.jpg'); --accent: oklch(72% 0.13 205);"
+            data-tag="Jeu web · En ligne" data-title="Candid Colin"
+            data-desc="Petit jeu de descente à ski développé comme démo technique pour candidater à l'équipe informatique de SKIUT. Phaser 4, visuels générés avec DALL-E, déployé en statique."
+            data-href="https://candid-colin.netlify.app" data-cta="Jouer"></button>
 
+          <button type="button" class="reel__card" aria-label="Nuit des Défis &amp; CompiTrip"
+            style="background-image:url('assets/projets/3-bots-discord.jpg'); --accent: oklch(72% 0.13 325);"
+            data-tag="Bot Discord · En ligne" data-title="Nuit des Défis &amp; CompiTrip"
+            data-desc="Deux bots Discord développés pour l'intégration UTC 2026 : soumission de défis avec photo/vidéo et validation par l'équipe animation pour l'un, notation libre de photos pour l'autre. Python, discord.py, base SQLite."
+            data-status="Utilisés en interne sur le serveur Discord de l'intégration UTC 2026."></button>
+
+          <button type="button" class="reel__card" aria-label="IDFENSE"
+            style="background-image:url('assets/projets/4-idfense.jpg'); --accent: oklch(72% 0.13 265);"
+            data-tag="Site web · En cours" data-title="IDFENSE"
+            data-desc="Refonte du site vitrine de l'entreprise de sûreté et sécurité de mes parents (Salouel, 80). Approche guidée par une interview client structurée en 48 questions, pas de contenu inventé."
+            data-status="En phase de recueil client"></button>
+
+          <button type="button" class="reel__card" aria-label="Site d'une auto-école"
+            style="background-image:url('assets/projets/5-auto-ecole.jpg'); --accent: oklch(72% 0.13 20);"
+            data-tag="Site web · Terminé" data-title="Site d'une auto-école"
+            data-desc="Mon premier projet concret, réalisé sans IA en HTML, PHP et CSS. C'est ce projet qui m'a fait comprendre en profondeur le fonctionnement du web et m'a donné les bases pour aller plus loin."
+            data-status="Réalisé en local. Le site n'est plus accessible en ligne : la base de données appartient à l'UTC."></button>
+
+          <button type="button" class="reel__card" aria-label="Mon CV en ligne"
+            style="background-image:url('assets/projets/6-cv.jpg'); --accent: oklch(72% 0.13 145);"
+            data-tag="Site web · En ligne" data-title="Mon CV en ligne"
+            data-desc="Un site personnel présentant mon parcours et mes compétences, pensé comme une alternative au CV classique."
+            data-href="https://colinflicourt-cv.netlify.app" data-cta="Voir le site"></button>
+
+          <button type="button" class="reel__card" aria-label="CAVANICOS"
+            style="background-image:url('assets/projets/7-cavanicos.jpg'); --accent: oklch(72% 0.13 50);"
+            data-tag="Site web · En ligne" data-title="CAVANICOS"
+            data-desc="Encyclopédie personnelle de cigares dégustés, réalisée en cadeau d'anniversaire pour mon père. Fiches avec photo, recherche et filtres par pays et note, style vintage luxe. PHP/MySQL sur OVH."
+            data-status="Site personnel et privé, pas de lien public."></button>
+
+        </div>
+      </div>
+
+      <div class="reel__caption" id="reelCaption">
+        <span class="reel__caption-tag" id="reelTag"></span>
+        <h2 class="reel__caption-title" id="reelTitle"></h2>
+        <p class="reel__caption-desc" id="reelDesc"></p>
+        <p class="reel__caption-cta" id="reelCta"></p>
+      </div>
+
+      <div class="reel__controls">
+        <button type="button" class="carousel__nav reel__nav--prev" aria-label="Projet précédent">←</button>
+        <p class="reel__hint">Glissez ou utilisez les flèches</p>
+        <button type="button" class="carousel__nav reel__nav--next" aria-label="Projet suivant">→</button>
+      </div>
+
+      <div class="reel-fallback">
+
+        <article class="card" style="cursor:default;">
+          <span class="card__tag">Jeu web · En ligne</span>
+          <h2 class="card__title">Utopia — Flappy Bird UTC 2026</h2>
+          <p class="card__description">Jeu officiel du comité d'intégration UTC 2026. Flappy Bird décliné en 4 univers visuels (un par clan), classement individuel et par équipe en temps réel. Backend MySQL/PHP sur OVH.</p>
+          <a href="https://utopia-jeu.fr" target="_blank" rel="noopener" class="card__link">Jouer →</a>
+        </article>
+
+        <article class="card" style="cursor:default;">
+          <span class="card__tag">Jeu web · En ligne</span>
+          <h2 class="card__title">Candid Colin</h2>
+          <p class="card__description">Petit jeu de descente à ski développé comme démo technique pour candidater à l'équipe informatique de SKIUT. Phaser 4, visuels générés avec DALL-E, déployé en statique.</p>
+          <a href="https://candid-colin.netlify.app" target="_blank" rel="noopener" class="card__link">Jouer →</a>
+        </article>
+
+        <article class="card" style="cursor:default;">
+          <span class="card__tag">Bot Discord · En ligne</span>
+          <h2 class="card__title">Nuit des Défis &amp; CompiTrip</h2>
+          <p class="card__description">Deux bots Discord développés pour l'intégration UTC 2026 : soumission de défis avec photo/vidéo et validation par l'équipe animation pour l'un, notation libre de photos pour l'autre. Python, discord.py, base SQLite.</p>
+          <p class="card__meta">Utilisés en interne sur le serveur Discord de l'intégration UTC 2026.</p>
+        </article>
+
+        <article class="card" style="cursor:default;">
+          <span class="card__tag">Site web · En cours</span>
+          <h2 class="card__title">IDFENSE</h2>
+          <p class="card__description">Refonte du site vitrine de l'entreprise de sûreté et sécurité de mes parents (Salouel, 80). Approche guidée par une interview client structurée en 48 questions, pas de contenu inventé.</p>
+          <p class="card__meta">En phase de recueil client</p>
+        </article>
+
+        <article class="card" style="cursor:default;">
+          <span class="card__tag">Site web · Terminé</span>
+          <h2 class="card__title">Site d'une auto-école</h2>
+          <p class="card__description">Mon premier projet concret, réalisé sans IA en HTML, PHP et CSS. C'est ce projet qui m'a fait comprendre en profondeur le fonctionnement du web et m'a donné les bases pour aller plus loin.</p>
+          <p class="card__meta">Réalisé en local. Le site n'est plus accessible en ligne : la base de données appartient à l'UTC.</p>
+        </article>
+
+        <article class="card" style="cursor:default;">
+          <span class="card__tag">Site web · En ligne</span>
+          <h2 class="card__title">Mon CV en ligne</h2>
+          <p class="card__description">Un site personnel présentant mon parcours et mes compétences, pensé comme une alternative au CV classique.</p>
+          <a href="https://colinflicourt-cv.netlify.app" target="_blank" rel="noopener" class="card__link">Voir le site →</a>
+        </article>
+
+        <article class="card" style="cursor:default;">
+          <span class="card__tag">Site web · En ligne</span>
+          <h2 class="card__title">CAVANICOS</h2>
+          <p class="card__description">Encyclopédie personnelle de cigares dégustés, réalisée en cadeau d'anniversaire pour mon père. Fiches avec photo, recherche et filtres par pays et note, style vintage luxe. PHP/MySQL sur OVH.</p>
+          <p class="card__meta">Site personnel et privé, pas de lien public.</p>
+        </article>
+
+      </div>
     </div>
   </section>
 
   <footer class="footer">
     <div class="container">
-      <img src="assets/logo-lockup.png" alt="QYRA" class="footer__logo" />
+      <img src="assets/logo-lockup.png" alt="QYRIS" class="footer__logo" />
       <p class="brand-tagline">Intelligence. Amplified.</p>
       <p style="margin-top:16px;">Formations Claude Code &amp; IA (site test)</p>
       <div class="footer__links">
@@ -76,7 +168,7 @@
         <a href="tel:+33786984462">07 86 98 44 62</a>
         <a href="mentions-legales.html">Mentions légales</a>
       </div>
-      <p class="footer__copy">© 2026 QYRA — Colin Flicourt</p>
+      <p class="footer__copy">© 2026 QYRIS — Colin Flicourt</p>
     </div>
   </footer>
 

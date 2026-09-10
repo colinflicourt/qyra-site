@@ -187,6 +187,289 @@ function initScrollytell() {
   update();
 }
 
+// ===== Reel de projets (page Projets) =====
+// Anneau de cartes positionnées via un seul angle (rotation) : chaque carte i est à
+// θ = i·pas + rotation, sa profondeur = (cos θ + 1) / 2 pilote à la fois son échelle,
+// son opacité et son empilement (z-index) — une seule valeur ne peut jamais se
+// contredire elle-même. La position x est dérivée de l'écart angulaire signé par
+// rapport au devant (et non de sin θ brut) pour que les 6 cartes occupent 6 positions
+// distinctes de part et d'autre du centre, sans que deux cartes symétriques se
+// superposent exactement à la même abscisse.
+function initProjectsReel() {
+  const reel = document.getElementById("projectsReel");
+  if (!reel) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return; // .reel-fallback prend le relais (voir CSS)
+
+  const stage = reel.querySelector(".reel__stage");
+  const cards = Array.from(reel.querySelectorAll(".reel__card"));
+  const count = cards.length;
+  if (!stage || !count) return;
+
+  const caption = document.getElementById("reelCaption");
+  const captionTag = document.getElementById("reelTag");
+  const captionTitle = document.getElementById("reelTitle");
+  const captionDesc = document.getElementById("reelDesc");
+  const captionCta = document.getElementById("reelCta");
+  const prevBtn = reel.parentElement.querySelector(".reel__nav--prev");
+  const nextBtn = reel.parentElement.querySelector(".reel__nav--next");
+
+  const TAU = Math.PI * 2;
+  const MIN_SCALE = 0.55;
+  const RADIUS_X_RATIO = 0.42;
+  const RADIUS_Y_RATIO = 0.14;
+  const BASE_CARD_W = 210;
+  const BASE_CARD_H = 294;
+  const HOLD_MS = 2200;
+  const STEP_MS = 700;
+  const SNAP_MS = 500;
+  const DRAG_START_THRESHOLD = 8;
+
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const step = TAU / count;
+
+  let rotation = 0;
+  let radiusX = 0;
+  let radiusY = 0;
+  let frontIndex = -1;
+  let dragging = false;
+  let dragStartX = 0;
+  let dragStartRotation = 0;
+  let dragMoved = 0;
+  let hovering = false;
+  let focused = false;
+  let rafId = null;
+  let autoplayTimer = null;
+
+  function shortestDelta(from, to) {
+    return (((to - from + Math.PI) % TAU) + TAU) % TAU - Math.PI;
+  }
+
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function cancelAnimation() {
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+
+  function animateRotationTo(target, duration, easing, onDone) {
+    cancelAnimation();
+    const start = rotation;
+    const delta = target - start;
+    const t0 = performance.now();
+    function frame(now) {
+      const t = Math.min(1, (now - t0) / duration);
+      rotation = start + delta * easing(t);
+      render();
+      if (t < 1) {
+        rafId = requestAnimationFrame(frame);
+      } else {
+        rafId = null;
+        if (onDone) onDone();
+      }
+    }
+    rafId = requestAnimationFrame(frame);
+  }
+
+  function setCta(href, cta, status) {
+    captionCta.textContent = "";
+    if (href) {
+      const a = document.createElement("a");
+      a.className = "reel__caption-link";
+      a.href = href;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.append((cta || "Voir le projet") + " ");
+      const arrow = document.createElement("span");
+      arrow.setAttribute("aria-hidden", "true");
+      arrow.textContent = "→";
+      a.append(arrow);
+      captionCta.append(a);
+    } else if (status) {
+      const span = document.createElement("span");
+      span.className = "reel__caption-status";
+      span.textContent = status;
+      captionCta.append(span);
+    }
+  }
+
+  function updateCaption(card) {
+    captionTag.textContent = card.dataset.tag || "";
+    captionTitle.textContent = card.dataset.title || "";
+    captionDesc.textContent = card.dataset.desc || "";
+    setCta(card.dataset.href, card.dataset.cta, card.dataset.status);
+    const accent = getComputedStyle(card).getPropertyValue("--accent").trim();
+    caption.style.setProperty("--reel-accent-active", accent);
+  }
+
+  function updateFront() {
+    let bestIdx = 0;
+    let bestCos = -Infinity;
+    cards.forEach((card, i) => {
+      const cos = Math.cos(i * step + rotation);
+      if (cos > bestCos) {
+        bestCos = cos;
+        bestIdx = i;
+      }
+    });
+    if (bestIdx !== frontIndex) {
+      if (frontIndex >= 0) cards[frontIndex].classList.remove("is-front");
+      frontIndex = bestIdx;
+      cards[frontIndex].classList.add("is-front");
+      updateCaption(cards[frontIndex]);
+    }
+  }
+
+  function render() {
+    cards.forEach((card, i) => {
+      const raw = i * step + rotation;
+      const delta = shortestDelta(0, raw);
+      const depth = (Math.cos(delta) + 1) / 2;
+      const x = (delta / Math.PI) * radiusX;
+      const y = (1 - depth) * radiusY;
+      const scale = MIN_SCALE + (1 - MIN_SCALE) * depth;
+      const opacity = 0.35 + 0.65 * depth;
+      card.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) scale(${scale})`;
+      card.style.zIndex = Math.round(scale * 1000);
+      card.style.opacity = opacity;
+    });
+    updateFront();
+  }
+
+  function computeLayout() {
+    const w = reel.clientWidth;
+    const h = reel.clientHeight;
+    radiusX = w * RADIUS_X_RATIO;
+    radiusY = h * RADIUS_Y_RATIO;
+    const fit = clamp(
+      Math.min(w / (radiusX * 2 + BASE_CARD_W), h / (radiusY * 2 + BASE_CARD_H)),
+      0.55,
+      1
+    );
+    const cardW = BASE_CARD_W * fit;
+    const cardH = BASE_CARD_H * fit;
+    cards.forEach((card) => {
+      card.style.width = cardW + "px";
+      card.style.height = cardH + "px";
+    });
+    render();
+  }
+
+  function goTo(i) {
+    cancelAnimation();
+    const target = rotation + shortestDelta(rotation, -i * step);
+    animateRotationTo(target, STEP_MS, easeInOutCubic, scheduleAutoplay);
+  }
+
+  function scheduleAutoplay() {
+    clearTimeout(autoplayTimer);
+    autoplayTimer = setTimeout(() => {
+      if (dragging || hovering || focused) {
+        scheduleAutoplay();
+        return;
+      }
+      goTo((frontIndex + 1) % count);
+    }, HOLD_MS);
+  }
+
+  // La capture du pointeur n'est prise qu'une fois un vrai mouvement détecté (au-delà
+  // de DRAG_START_THRESHOLD), jamais dès le pointerdown : la capturer plus tôt reciblerait
+  // le pointerup vers .reel, et le clic serait alors calculé sur l'ancêtre commun (.reel)
+  // au lieu du bouton-carte — le clic natif de chaque carte ne se déclencherait plus.
+  let activePointerId = null;
+
+  reel.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    activePointerId = e.pointerId;
+    dragging = false;
+    dragMoved = 0;
+    dragStartX = e.clientX;
+    dragStartRotation = rotation;
+    cancelAnimation();
+    clearTimeout(autoplayTimer);
+  });
+
+  reel.addEventListener("pointermove", (e) => {
+    if (activePointerId === null || e.pointerId !== activePointerId) return;
+    const dx = e.clientX - dragStartX;
+    dragMoved = Math.abs(dx);
+    if (!dragging) {
+      if (dragMoved < DRAG_START_THRESHOLD) return;
+      dragging = true;
+      reel.classList.add("reel--dragging");
+      reel.setPointerCapture(activePointerId);
+    }
+    rotation = dragStartRotation + (dx / (radiusX || 1)) * Math.PI;
+    render();
+  });
+
+  function endDrag(e) {
+    if (activePointerId === null || e.pointerId !== activePointerId) return;
+    activePointerId = null;
+    if (!dragging) {
+      // Simple clic/tap sans glissement : on ne capture rien, le clic natif de la
+      // carte (ou du fond) se charge de la sélection.
+      scheduleAutoplay();
+      return;
+    }
+    dragging = false;
+    reel.classList.remove("reel--dragging");
+    if (reel.hasPointerCapture(e.pointerId)) reel.releasePointerCapture(e.pointerId);
+    const target = Math.round(rotation / step) * step;
+    animateRotationTo(target, SNAP_MS, easeOutCubic, scheduleAutoplay);
+  }
+
+  reel.addEventListener("pointerup", endDrag);
+  reel.addEventListener("pointercancel", endDrag);
+
+  reel.addEventListener("pointerenter", () => {
+    hovering = true;
+  });
+  reel.addEventListener("pointerleave", () => {
+    hovering = false;
+  });
+  reel.addEventListener("focusin", () => {
+    focused = true;
+  });
+  reel.addEventListener("focusout", () => {
+    focused = false;
+  });
+
+  reel.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      goTo((frontIndex + 1) % count);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      goTo((frontIndex - 1 + count) % count);
+    }
+  });
+
+  cards.forEach((card, i) => {
+    card.addEventListener("click", () => {
+      if (i === frontIndex) {
+        const href = card.dataset.href;
+        if (href) window.open(href, "_blank", "noopener");
+      } else {
+        goTo(i);
+      }
+    });
+  });
+
+  prevBtn?.addEventListener("click", () => goTo((frontIndex - 1 + count) % count));
+  nextBtn?.addEventListener("click", () => goTo((frontIndex + 1) % count));
+
+  window.addEventListener("resize", computeLayout);
+
+  computeLayout();
+  scheduleAutoplay();
+}
+
 // ===== Scroll reveal : repli pour les navigateurs sans animation-timeline =====
 function initScrollReveal() {
   if (CSS.supports("animation-timeline: view()")) return;
@@ -215,5 +498,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrollytell();
   initMagnetButtons();
   initCarousels();
+  initProjectsReel();
   initScrollReveal();
 });
