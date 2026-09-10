@@ -140,6 +140,106 @@ function closeCardModal() {
   lastFocusedBeforeModal = null;
 }
 
+// ===== Nav compacte au scroll (pilule qui se resserre une fois qu'on a quitté le haut) =====
+function initNavScroll() {
+  const navbar = document.querySelector(".navbar");
+  const logo = document.querySelector(".site-logo");
+  if (!navbar) return;
+
+  function update() {
+    const scrolled = window.scrollY > 40;
+    navbar.classList.toggle("navbar--compact", scrolled);
+    logo?.classList.toggle("site-logo--compact", scrolled);
+  }
+
+  let ticking = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
+      }
+    },
+    { passive: true }
+  );
+  update();
+}
+
+// ===== Hero à défilement (page d'accueil) =====
+// Un long conteneur (.scrollytell) contient une scène épinglée (position: sticky en CSS).
+// On traduit la progression du scroll dans ce conteneur en opacité/translation par ligne,
+// chacune définie par une fenêtre [in-start, in-end] (apparition) et [out, out-end] (disparition,
+// absente pour le bloc final qui reste affiché jusqu'à la fin du couloir de scroll).
+function initScrollytell() {
+  const root = document.querySelector(".scrollytell");
+  if (!root) return;
+
+  const lines = Array.from(root.querySelectorAll(".scrollytell__line"));
+  const final = root.querySelector(".scrollytell__final");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduceMotion) {
+    // Le CSS gère déjà ce cas (voir @media prefers-reduced-motion), rien à animer en JS.
+    return;
+  }
+
+  function readPhase(el) {
+    return {
+      el,
+      inStart: parseFloat(el.dataset.in) || 0,
+      inEnd: parseFloat(el.dataset.inEnd) || 0,
+      outStart: el.dataset.out !== undefined ? parseFloat(el.dataset.out) : null,
+      outEnd: el.dataset.outEnd !== undefined ? parseFloat(el.dataset.outEnd) : null,
+    };
+  }
+
+  const phases = lines.map(readPhase);
+  if (final) phases.push(readPhase(final));
+
+  function opacityFor(progress, { inStart, inEnd, outStart, outEnd }) {
+    if (progress <= inStart) return 0;
+    if (progress < inEnd) return (progress - inStart) / (inEnd - inStart);
+    if (outStart == null || progress < outStart) return 1;
+    if (progress < outEnd) return 1 - (progress - outStart) / (outEnd - outStart);
+    return 0;
+  }
+
+  function apply(phase, progress) {
+    const o = opacityFor(progress, phase);
+    phase.el.style.opacity = o;
+    phase.el.style.transform =
+      phase.el === final
+        ? `translateY(${(1 - o) * 16}px) scale(${0.97 + o * 0.03})`
+        : `translate(-50%, calc(-50% + ${(1 - o) * 18}px))`;
+  }
+
+  function update() {
+    const rect = root.getBoundingClientRect();
+    const scrollable = rect.height - window.innerHeight;
+    const progress = scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 1;
+    phases.forEach((phase) => apply(phase, progress));
+  }
+
+  let ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(() => {
+        update();
+        ticking = false;
+      });
+    }
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  update();
+}
+
 // ===== Scroll reveal : repli pour les navigateurs sans animation-timeline =====
 function initScrollReveal() {
   if (CSS.supports("animation-timeline: view()")) return;
@@ -164,6 +264,8 @@ function initScrollReveal() {
 
 document.addEventListener("DOMContentLoaded", () => {
   initNavbar();
+  initNavScroll();
+  initScrollytell();
   initMagnetButtons();
   initCarousels();
   initScrollReveal();

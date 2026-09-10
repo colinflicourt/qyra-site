@@ -167,6 +167,26 @@ section {
   backdrop-filter: blur(16px);
   border: 1px solid var(--color-border-soft);
   box-shadow: 0 8px 32px rgb(0 0 0 / 60%);
+  transition: background 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+}
+
+/* état "compact" une fois qu'on a quitté le haut de page */
+.navbar--compact {
+  padding: 4px;
+  background: color-mix(in oklch, var(--color-bg-elevated) 96%, transparent);
+  box-shadow: 0 8px 28px rgb(0 0 0 / 75%);
+}
+
+.navbar--compact .navbar__link {
+  padding: 8px 18px;
+}
+
+.site-logo {
+  transition: transform 0.3s ease;
+}
+
+.site-logo--compact {
+  transform: scale(0.9);
 }
 
 .navbar__link {
@@ -178,7 +198,7 @@ section {
   font-weight: 600;
   letter-spacing: 0.01em;
   color: var(--color-text-muted);
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, padding 0.3s ease;
   white-space: nowrap;
 }
 
@@ -271,6 +291,7 @@ section {
   position: relative;
   font-size: clamp(2rem, 5vw, 3.2rem);
   margin-bottom: 16px;
+  animation: header-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .page-header__subtitle {
@@ -279,13 +300,34 @@ section {
   color: var(--color-text-muted);
   max-width: 560px;
   margin: 0 auto;
+  animation: header-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
 }
 
-/* ===== Hero ===== */
-.hero {
+@keyframes header-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ===== Hero à défilement (scrollytelling) ===== */
+/* Un long "couloir" de scroll (--runway-h) contient une scène épinglée (position: sticky) ;
+   initScrollytell() (main.js) traduit la progression du scroll en opacité/translation par
+   phase, pour raconter une courte histoire avant que le logo ne se fixe en position finale. */
+.scrollytell {
   position: relative;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: var(--runway-h, 380vh);
+}
+
+@media (max-width: 640px) {
+  .scrollytell {
+    height: var(--runway-h-mobile, 300vh);
+  }
+}
+
+.scrollytell__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -294,18 +336,59 @@ section {
   text-align: center;
 }
 
-.hero__bg {
+.scrollytell__dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: radial-gradient(circle, rgb(255 255 255 / 22%) 1.4px, transparent 1.4px);
+  background-size: 28px 28px;
+  background-position: center;
+  -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, black 0%, transparent 72%);
+  mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, black 0%, transparent 72%);
+}
+
+.scrollytell__bg {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
 
-.hero__scrim {
+.scrollytell__scrim {
   position: absolute;
   inset: 0;
   z-index: 0;
   background: radial-gradient(ellipse 70% 60% at 50% 40%, transparent 0%, rgb(0 0 0 / 55%) 75%, var(--color-bg) 100%);
   pointer-events: none;
+}
+
+/* Phrases qui se relaient au fil du scroll : purement décoratives (aria-hidden),
+   le vrai message accessible vit dans .scrollytell__final (h1 réel, lu une seule fois). */
+.scrollytell__line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  max-width: 720px;
+  padding: 0 24px;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 4.2vw, 2.8rem);
+  color: var(--color-text);
+  opacity: 0;
+}
+
+.scrollytell__line[data-in="0"] {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.scrollytell__final {
+  position: relative;
+  z-index: 1;
+  opacity: 1;
 }
 
 .hero__content {
@@ -939,9 +1022,31 @@ button:focus-visible,
   .navbar__indicator,
   .btn,
   .btn__particle,
-  .reveal {
+  .reveal,
+  .page-header__title,
+  .page-header__subtitle {
     transition: none !important;
     animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Le hero à défilement redevient un hero classique, sans histoire ni "runway" à parcourir */
+  .scrollytell {
+    height: auto !important;
+  }
+
+  .scrollytell__stage {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .scrollytell__line {
+    display: none !important;
+  }
+
+  .scrollytell__final {
     opacity: 1 !important;
     transform: none !important;
   }
