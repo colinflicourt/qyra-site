@@ -84,60 +84,7 @@ function initCarousels() {
 
     prevBtn?.addEventListener("click", () => scrollByCard(-1));
     nextBtn?.addEventListener("click", () => scrollByCard(1));
-
-    track.querySelectorAll(".card").forEach((card) => {
-      card.addEventListener("click", () => openCardModal(card));
-      card.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          openCardModal(card);
-        }
-      });
-    });
   });
-
-  const modal = document.querySelector(".card-modal");
-  modal?.querySelector(".card-modal__close")?.addEventListener("click", closeCardModal);
-  modal?.addEventListener("click", (event) => {
-    if (event.target === modal) closeCardModal();
-  });
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeCardModal();
-  });
-}
-
-let lastFocusedBeforeModal = null;
-
-function setInertOutsideModal(isInert) {
-  document.querySelectorAll("body > *").forEach((el) => {
-    if (!el.classList.contains("card-modal")) {
-      el.toggleAttribute("inert", isInert);
-    }
-  });
-}
-
-function openCardModal(card) {
-  const modal = document.querySelector(".card-modal");
-  const panel = modal?.querySelector(".card-modal__panel");
-  if (!modal || !panel) return;
-  modal.querySelector(".card-modal__title").textContent = card.dataset.title || "";
-  modal.querySelector(".card-modal__tag").textContent = card.dataset.tag || "";
-  modal.querySelector(".card-modal__body").textContent = card.dataset.description || "";
-  modal.classList.add("is-open");
-  document.body.style.overflow = "hidden";
-  lastFocusedBeforeModal = card;
-  setInertOutsideModal(true);
-  panel.focus();
-}
-
-function closeCardModal() {
-  const modal = document.querySelector(".card-modal");
-  if (!modal) return;
-  modal.classList.remove("is-open");
-  document.body.style.overflow = "";
-  setInertOutsideModal(false);
-  lastFocusedBeforeModal?.focus();
-  lastFocusedBeforeModal = null;
 }
 
 // ===== Nav compacte au scroll (pilule qui se resserre une fois qu'on a quitté le haut) =====
