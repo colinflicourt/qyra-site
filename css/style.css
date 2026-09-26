@@ -122,7 +122,7 @@ section {
 }
 
 .site-logo__lockup {
-  height: 34px;
+  height: 30px;
   width: auto;
 }
 
@@ -131,13 +131,13 @@ section {
     top: calc(16px + env(safe-area-inset-top, 0px));
   }
   .site-logo__lockup {
-    height: 28px;
+    height: 24px;
   }
 }
 
 /* ===== Marque / tagline (footer) ===== */
 .footer__logo {
-  height: 44px;
+  height: 40px;
   width: auto;
   margin: 0 auto 14px;
 }
@@ -425,7 +425,7 @@ section {
 }
 
 .hero__logo {
-  width: clamp(200px, 26vw, 360px);
+  width: clamp(240px, 44vw, 560px);
   height: auto;
   margin: 0 auto 20px;
 }
