@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Déboguer son code avec Claude Code : ce qui change vraiment — QYRIS</title>
+  <meta name="description" content="Claude Code ne se contente pas de corriger une erreur : il comprend votre projet et trouve la cause racine. Voici comment l'utiliser efficacement." />
+  <meta name="theme-color" content="#010101" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="canonical" href="https://qyris.fr/articles/deboguer-code-claude-code.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://qyris.fr/articles/deboguer-code-claude-code.html" />
+  <meta property="og:title" content="Déboguer son code avec Claude Code : ce qui change vraiment — QYRIS" />
+  <meta property="og:description" content="Claude Code ne se contente pas de corriger une erreur : il comprend votre projet et trouve la cause racine. Voici comment l'utiliser efficacement." />
+  <meta property="og:image" content="https://qyris.fr/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Déboguer son code avec Claude Code : ce qui change vraiment — QYRIS" />
+  <meta name="twitter:description" content="Claude Code ne se contente pas de corriger une erreur : il comprend votre projet et trouve la cause racine. Voici comment l'utiliser efficacement." />
+  <meta name="twitter:image" content="https://qyris.fr/assets/og-image.png" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <a href="../index.html" class="site-logo"><img class="site-logo__lockup" src="../assets/logo-lockup.png" alt="QYRIS" /></a>
+
+  <nav class="navbar">
+    <a href="../index.html" class="navbar__link"><span class="full">Accueil</span><span class="short">Accueil</span></a>
+    <a href="../formations.html" class="navbar__link"><span class="full">Formations</span><span class="short">Formations</span></a>
+    <a href="../blog.html" class="navbar__link is-active"><span class="full">Blog</span><span class="short">Blog</span></a>
+    <div class="navbar__indicator"></div>
+  </nav>
+
+  <header class="page-header">
+    <h1 class="page-header__title">Déboguer son code avec Claude Code : ce qui change vraiment</h1>
+    <p class="page-header__subtitle">Moins de temps à chercher l'erreur, plus de temps à construire.</p>
+  </header>
+
+  <section>
+    <div class="container reveal" style="max-width:680px;">
+      <p class="card__meta" style="margin-top:0; margin-bottom:24px;">Publié le 4 octobre 2026</p>
+
+      <p style="color:var(--color-text-muted); margin-bottom:24px;">
+        Le débogage est l'une des tâches les plus chronophages en développement. On cherche la ligne qui provoque une erreur, on relit le code dans tous les sens, on ajoute des <code>console.log</code> partout. Claude Code change l'approche : au lieu de chercher seul, vous décrivez le problème et il explore le projet à votre place pour trouver la cause.
+      </p>
+
+      <h2 style="margin:32px 0 12px; font-size:1.3rem;">1. Copiez l'erreur telle quelle</h2>
+      <p style="color:var(--color-text-muted);">Le premier réflexe à adopter : copiez le message d'erreur complet dans Claude Code, sans le reformuler. Les messages d'erreur contiennent souvent des indices précis sur le fichier, la ligne et la nature du problème. Si vous les paraphrasez, vous perdez ces informations. Un simple "j'ai cette erreur : [erreur]" suffit souvent à démarrer.</p>
+
+      <h2 style="margin:32px 0 12px; font-size:1.3rem;">2. Donnez le contexte autour du fichier concerné</h2>
+      <p style="color:var(--color-text-muted);">Claude Code est le plus efficace quand il peut voir le fichier en cause et ceux qui lui sont liés. Si votre erreur vient d'une fonction importée depuis un autre fichier, mentionnez-le. Plus Claude Code dispose de contexte, plus ses suggestions seront précises et applicables directement, sans que vous ayez à les adapter.</p>
+
+      <h2 style="margin:32px 0 12px; font-size:1.3rem;">3. Demandez une explication avant une correction</h2>
+      <p style="color:var(--color-text-muted);">Avant de demander "corrige cette erreur", essayez "explique pourquoi cette erreur se produit". Cette approche a deux avantages : vous comprenez ce qui s'est passé, ce qui vous évite de reproduire l'erreur ailleurs, et vous pouvez valider que Claude Code a bien cerné le problème avant d'appliquer un changement dans votre code.</p>
+
+      <h2 style="margin:32px 0 12px; font-size:1.3rem;">4. Utilisez Claude Code pour comprendre du code que vous n'avez pas écrit</h2>
+      <p style="color:var(--color-text-muted);">Vous reprenez un projet existant, vous intégrez une librairie, vous lisez le code d'un collègue. Claude Code peut vous expliquer ce que fait chaque partie, pourquoi c'est structuré ainsi et ce que vous pouvez modifier sans risque. Ce n'est pas uniquement du débogage : c'est de la compréhension accélérée.</p>
+
+      <h2 style="margin:32px 0 12px; font-size:1.3rem;">5. Quand Claude Code se trompe, reformulez plutôt que de réessayer à l'identique</h2>
+      <p style="color:var(--color-text-muted);">Comme tout outil, Claude Code peut proposer une correction qui ne fonctionne pas. La réaction naturelle est de réessayer avec la même question. C'est rarement la bonne approche. Précisez ce qui ne va pas : "cette correction provoque une nouvelle erreur : [erreur]" ou "ça ne règle pas le problème parce que [raison]". Claude Code ajuste sa réponse en fonction de ces nouvelles informations.</p>
+
+      <p style="margin-top:40px;"><a href="../blog.html" class="btn btn--primary"><span aria-hidden="true">←</span> Retour au blog</a></p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <img src="../assets/logo-lockup.png" alt="QYRIS" class="footer__logo" />
+      <p class="brand-tagline">Intelligence. Amplified.</p>
+      <p style="margin-top:16px;">Formations Claude Code &amp; IA</p>
+      <div class="footer__links">
+        <a href="mailto:contact@qyris.fr">contact@qyris.fr</a>
+        <a href="tel:+33322443698">03 22 44 36 98</a>
+        <a href="../mentions-legales.html">Mentions légales</a>
+      </div>
+      <p class="footer__copy">© 2026 QYRIS — Colin Flicourt</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script type="module">
+    import { initParticlesBg } from "../js/particles-bg.js";
+    initParticlesBg(document.querySelector(".page-header"));
+  </script>
+</body>
+</html>
